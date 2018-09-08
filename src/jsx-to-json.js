@@ -104,4 +104,14 @@ function getPropValue(node) {
     return value;
 }
 
+function getParentType(node) {
+    let type;
+    if (types.isJSXIdentifier(node)) {
+      type = node.name;
+    } else if (types.isJSXMemberExpression(node)) {
+      type = getParentType(node.object) + '.' + node.property.name;
+    }
+    return type;
+}
+
 module.exports = jsxToJson;
