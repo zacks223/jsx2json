@@ -26,34 +26,32 @@ function jsxToJson(jsx) {
             }
         },
 
-        JSXOpeningElement: {
-            enter: path => {
-                const nodeName = path.node.name;
-                let jsonNode;
-                if (types.isJSXIdentifier(nodeName)) {
-                    const type = nodeName.name;
-                    jsonNode = {
-                        type,
-                    };
-                } else if (types.isJSXMemberExpression(nodeName)) {
-                    const type = nodeName.property.name;
-                    const parentType = getParentType(nodeName.object);
-                    jsonNode = {
-                        type,
-                        parentType,
-                    };
+        JSXOpeningElement: path => {
+            const nodeName = path.node.name;
+            let jsonNode;
+            if (types.isJSXIdentifier(nodeName)) {
+                const type = nodeName.name;
+                jsonNode = {
+                    type,
+                };
+            } else if (types.isJSXMemberExpression(nodeName)) {
+                const type = nodeName.property.name;
+                const parentType = getParentType(nodeName.object);
+                jsonNode = {
+                    type,
+                    parentType,
+                };
+            }
+            if (JSXlevel === 1) {
+                jsonTree = jsonNode;
+                path.parent.__jsonNode = jsonNode;
+            } else if (JSXlevel > 1) {
+                path.parent.__jsonNode = jsonNode;
+                const parentJsonNode = path.parentPath.parentPath.node.__jsonNode;
+                if (!parentJsonNode.children) {
+                    parentJsonNode.children = [];
                 }
-                if (JSXlevel === 1) {
-                    jsonTree = jsonNode;
-                    path.parent.__jsonNode = jsonNode;
-                } else if (JSXlevel > 1) {
-                    path.parent.__jsonNode = jsonNode;
-                    const parentJsonNode = path.parentPath.parentPath.node.__jsonNode;
-                    if (!parentJsonNode.children) {
-                        parentJsonNode.children = [];
-                    }
-                    parentJsonNode.children.push(jsonNode);
-                }
+                parentJsonNode.children.push(jsonNode);
             }
         },
 
