@@ -2,16 +2,18 @@
   "name": "jsx2json",
   "version": "1.0.0",
   "description": "A tool for transforming jsx to json or reverse",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "@babel/parser": "^7.0.0",
     "babel-generator": "^6.26.1",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "jsx",

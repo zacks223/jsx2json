@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-const cwd = process.cwd();
 const parser = require('@babel/parser');
 const types = require('babel-types');
 const babelTraverse = require('babel-traverse').default;
