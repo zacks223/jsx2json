@@ -12,11 +12,13 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0"
   },
   "scripts": {
-    "test": "jest",
-    "build": "babel src -d lib"
+    "test": "jest && npm run coverall",
+    "build": "babel src -d lib",
+    "coverall": "cat coverage/lcov.info | coveralls"
   },
   "keywords": [
     "jsx",
