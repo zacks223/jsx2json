@@ -1,10 +1,9 @@
 const parser = require('@babel/parser');
 const types = require('babel-types');
-const babelTraverse = require('babel-traverse').default;
-const babelGenerator = require('babel-generator').default;
-const { writeJsonFile } = require('./util');
+import traverse from 'babel-traverse';
+import generate from 'babel-generator';
 
-function jsxToJson(jsx) {
+export function jsx2Json(jsx) {
     const options = {
         sourceType: 'module',
         plugins: ['jsx']
@@ -12,8 +11,7 @@ function jsxToJson(jsx) {
     let JSXlevel = 0;
     let jsonTree;
     const ast = parser.parse(jsx, options);
-    writeJsonFile(ast, './ast.json');
-    babelTraverse(ast, {
+    traverse(ast, {
         JSXElement: {
             enter: () => {
                 JSXlevel++;
@@ -91,7 +89,7 @@ function getPropValue(node) {
     let value;
     if (types.isJSXExpressionContainer(node)) {
         const expression = node.expression;
-        const code = babelGenerator(expression).code;
+        const code = generate(expression).code;
         value = eval(`(${code})`);
     } else {
         value = node.value;
@@ -108,5 +106,3 @@ function getParentType(node) {
     }
     return type;
 }
-
-module.exports = jsxToJson;

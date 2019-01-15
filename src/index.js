@@ -1,5 +1,1 @@
-const jsxToJson = require('./jsx-to-json');
-
-module.exports = {
-    jsxToJson,
-};
+export * from './jsx-2-json';
